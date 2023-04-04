@@ -14,7 +14,7 @@ var items= ["Node.js Containers","Debug with Rookout"];
 let todoItems = [];
 
  app.get("/",(req,res)=>{
-    res.send("list",{newListItems: items});
+    res.render("list",{newListItems: items});
  });
 
  app.post("/",(req,res)=>{
@@ -32,6 +32,6 @@ let todoItems = [];
 
 });
 
-app.listen(8080,()=>{
+app.listen(process.env.PORT || 3000,()=>{
     console.log("Server running on port 8080");
 });
