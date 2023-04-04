@@ -1,20 +1,16 @@
-# Pull the Node.js image
-FROM node:18-alpine
-
-# Create a Docker working directory
-WORKDIR '/app'
-
-# copy dependencies files
-COPY package*.json ./
-
-# Install dependencies inside Docker
+FROM node:16.16.0-slim as dependencies
+WORKDIR /app
+COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy the application source code
-COPY . .
+FROM dependencies as build
+COPY src/index.js ./src/
+COPY src/app.js ./src/
+COPY babel.config.json ./
+COPY static/ ./static/
+RUN npm run build
 
-# Port number to expose the Node.js app outside Docker
-EXPOSE 5000
-
-# Command to run the application
-CMD ["node", "index.js"]
+FROM dependencies as release
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/static /app/static
+ENTRYPOINT [ "npm", "start" ]
