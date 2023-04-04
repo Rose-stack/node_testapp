@@ -1,0 +1,18 @@
+
+<%- include("header") -%>
+
+    <div class="box">
+        <% for(var i=0;i<newListItems.length;i++){ %>
+        <div class="item">
+            <input type="checkbox">
+            <p> <%= newListItems[i] %> </p>
+        </div>                           
+            <% } %>
+        </ul>    
+
+        <form method="post" action="/">
+            <input type="text" name="newItem" placeholder="Enter New Todo" autocomplete="off">
+            <button type="submit" name="list">Add Todo</button>
+        </form>
+
+    </div>
